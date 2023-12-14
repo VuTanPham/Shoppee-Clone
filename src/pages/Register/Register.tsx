@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Input from "src/components/Input/Input";
-import { getRules } from "src/utils/rules";
+import { getRules, schema } from "src/utils/rules";
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
 
 interface FormData {
   email: string,
@@ -15,7 +17,9 @@ export default function Register() {
     handleSubmit,
     getValues,
     formState: { errors }
-  } = useForm<FormData>()
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
 
   const rules = getRules(getValues)
 
