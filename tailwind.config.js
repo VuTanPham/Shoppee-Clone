@@ -10,7 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        orange: '#ee4d2d'
+        orange: '#ee4d2d',
+        whitelo: '#fffffe',
+        whiteli: '#F86D5C',
       }
     },
   },

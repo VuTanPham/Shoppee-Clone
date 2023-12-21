@@ -1,29 +1,52 @@
 import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form'
 import Input from "src/components/Input/Input";
-import { getRules, loginSchema } from "src/utils/rules";
+import { Schema, schema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "src/apis/auth.api";
+import { isAxiosUnprocessableEntity } from "src/utils/utils";
+import { ResponseApi } from "src/types/utils.type";
 
-interface FormData {
-  email: string,
-  password: string
-}
+type FormData = Omit<Schema, 'confirm_password'>
+const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
   })
 
-  const onSubmit = handleSubmit((data) => {
+  const loginMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
   })
 
-  const rules = getRules(getValues)
+  const onSubmit = handleSubmit((data) => {
+    loginMutation.mutate(data, {
+      onSuccess: (data) => {
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, {
+                message: formError[key as keyof FormData],
+                type: 'Server'
+              })
+            })
+          }
+        }
+      }
+    }
+    )
 
+  })
   return (
     <div className='bg-orange'>
       <div className="container">
@@ -37,7 +60,6 @@ export default function Login() {
                 errorMessage={errors.email?.message}
                 name="email"
                 className="mt-8"
-                rules={rules.email}
                 placeholder="Email"
                 register={register}
               />
@@ -47,7 +69,6 @@ export default function Login() {
                 type="password"
                 className="mt-8"
                 errorMessage={errors.password?.message}
-                rules={rules.password}
                 placeholder="Password"
                 autoComplete='on'
               />

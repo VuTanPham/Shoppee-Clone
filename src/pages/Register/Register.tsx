@@ -1,35 +1,54 @@
 import { Link } from "react-router-dom";
 import Input from "src/components/Input/Input";
-import { getRules, schema } from "src/utils/rules";
+import { schema, Schema } from "src/utils/rules";
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from "@tanstack/react-query";
+import { registerAccount } from "src/apis/auth.api";
+import { omit } from 'lodash'
+import { isAxiosUnprocessableEntity } from "src/utils/utils";
+import { ResponseApi } from "src/types/utils.type";
 
 
-interface FormData {
-  email: string,
-  password: string,
-  confirm_password: string
-}
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 
 export default function Register() {
   const {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
 
-  const rules = getRules(getValues)
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+  })
 
-  const onSubmit = handleSubmit(
-    (data) => {
-    },
-    (data) => {
-      const password = getValues('password')
-    }
-  )
+  // const rules = getRules(getValues)
+
+  const onSubmit = handleSubmit((data) => {
+    const body = omit(data, '[confirm_password]')
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof Omit<FormData, 'confirm_password'>, {
+                message: formError[key as keyof Omit<FormData, 'confirm_password'>],
+                type: 'Server'
+              })
+            })
+          }
+        }
+      }
+    })
+  })
 
   return (
     <div className='bg-orange'>
@@ -45,7 +64,6 @@ export default function Register() {
                 type="email"
                 className="mt-8"
                 errorMessage={errors.email?.message}
-                rules={rules.email}
                 placeholder="Email"
               />
               <Input
@@ -54,7 +72,6 @@ export default function Register() {
                 type="password"
                 className="mt-8"
                 errorMessage={errors.password?.message}
-                rules={rules.password}
                 placeholder="Password"
                 autoComplete='on'
               />
@@ -64,7 +81,6 @@ export default function Register() {
                 type="password"
                 className="mt-8"
                 errorMessage={errors.confirm_password?.message}
-                rules={rules.confirm_password}
                 autoComplete='on'
                 placeholder="Confirm Password"
               />
