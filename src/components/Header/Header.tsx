@@ -1,18 +1,28 @@
 import { Link } from "react-router-dom";
+import Popover from "../Popover";
 
 export default function Header() {
     return (
         <div className="bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white">
             <div className="container">
                 <div className="flex justify-end">
-                    <div className="flex items-center py-1 hover:text-gray-300 cursor-">
+                    <Popover
+                        className="flex items-center py-1 hover:text-gray-300 cursor-pointer"
+                        renderPopover={
+                            <div className="bg-white relative shadow-md rounded-sm border border-gray-200">
+                                <div className="flex flex-col py-2 px-3">
+                                    <button className="py-2 px-3 hover:text-orange">Tiếng Việt</button>
+                                    <button className="py-2 px-3 hover:text-orange">English</button>
+                                </div>
+                            </div>
+                        }>
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
                             viewBox='0 0 24 24'
                             strokeWidth={1.5}
                             stroke='currentColor'
-                            className='h-5 w-5'
+                            className='h-5 w-5 hover:text-whiteli'
                         >
                             <path
                                 strokeLinecap='round'
@@ -30,15 +40,34 @@ export default function Header() {
                         >
                             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
                         </svg>
-                        <div className="flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6">
-                            <Link to='/' className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
-                                Đăng Ký
-                            </Link>
-                            <div className="h-4 border-r-[1px] border-r-white/40"></div>
-                            <Link to='/' className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
-                                Đăng Nhập
-                            </Link>
+                    </Popover>
+                    <Popover className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+                        renderPopover={
+                            <div className="bg-white relative shadow-md rounded-sm border border-gray-200">
+                                <div className="flex flex-col py-2 px-3">
+                                    <button className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</button>
+                                    <button className="py-2 px-3 hover:text-orange">Đơn mua</button>
+                                    <button className="py-2 px-3 hover:text-orange">Đăng xuất</button>
+                                </div>
+                            </div>
+                        }>
+                        <div className='w-6 h-6 mr-2 flex-shrink-0'>
+                            <img
+                                src='https://api-ecom.duthanhduoc.com/images/de4e05e4-622e-4990-8b56-808e54d01723.png'
+                                alt='avatar'
+                                className='h-full w-full rounded-full object-cover'
+                            />
                         </div>
+                        <div>BuiQuocDat</div>
+                    </Popover>
+                    <div className="flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6">
+                        <Link to='/' className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
+                            Đăng Ký
+                        </Link>
+                        <div className="h-4 border-r-[1px] border-r-white/40"></div>
+                        <Link to='/' className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
+                            Đăng Nhập
+                        </Link>
                     </div>
                 </div>
                 <div className=" grid grid-cols-12 items-end gap-4">
@@ -65,13 +94,21 @@ export default function Header() {
                             </button>
                         </div>
                     </form>
-                    <div className="col-span-1 justify-self-start py-4">
+                    <Popover
+                        className="col-span-1 justify-self-start py-4"
+                        renderPopover={
+                            <div className="flex h-[300px] w-[300px] flex-col items-center justify-center p-2 bg-white">
+                                <img src="https://taphoa.cz/static/media/cart-empty-img.8b677cb3.png" alt="no purchase" className="h-24 w-24" />
+                                <div className="mt-3 capitalize">Chưa có sản phẩm</div>
+                            </div>
+                        }
+                    >
                         <div>
                             <Link to='/' className="relative">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="h-8 w-8"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
                             </Link>
                         </div>
-                    </div>
+                    </Popover>
                 </div>
             </div>
         </div >
