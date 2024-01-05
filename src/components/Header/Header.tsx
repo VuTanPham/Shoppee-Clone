@@ -45,9 +45,9 @@ export default function Header() {
                         renderPopover={
                             <div className="bg-white relative shadow-md rounded-sm border border-gray-200">
                                 <div className="flex flex-col py-2 px-3">
-                                    <button className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</button>
-                                    <button className="py-2 px-3 hover:text-orange">Đơn mua</button>
-                                    <button className="py-2 px-3 hover:text-orange">Đăng xuất</button>
+                                    <Link to='/profile' className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</Link>
+                                    <Link to='/' className="py-2 px-3 hover:text-orange">Đơn mua</Link>
+                                    <Link to='/' className="py-2 px-3 hover:text-orange">Đăng xuất</Link>
                                 </div>
                             </div>
                         }>
@@ -94,21 +94,40 @@ export default function Header() {
                             </button>
                         </div>
                     </form>
-                    <Popover
-                        className="col-span-1 justify-self-start py-4"
-                        renderPopover={
-                            <div className="flex h-[300px] w-[300px] flex-col items-center justify-center p-2 bg-white">
-                                <img src="https://taphoa.cz/static/media/cart-empty-img.8b677cb3.png" alt="no purchase" className="h-24 w-24" />
-                                <div className="mt-3 capitalize">Chưa có sản phẩm</div>
+                    <div className="col-span-1 justify-self-start py-4">
+                        <Popover
+                            placement="bottom-end"
+                            renderPopover={
+                                <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w-[400px] text-sm'>
+                                    <div className="p-2">
+                                        <div className="text-gray-400 capitalize">Sản phẩm mới thêm</div>
+                                        <div className='mt-5'>
+                                            <div className='mt-4 flex'>
+                                                <div className='flex-shrink-0'>
+                                                    <img
+                                                        src='https://api-ecom.duthanhduoc.com/images/a7fb7a18-743a-42bb-bead-36370c1d1aba.jpg'
+                                                        alt='anh'
+                                                        className='w-11 h-11 object-cover'
+                                                    />
+                                                </div>
+                                                <div className='flex-grow ml-2 overflow-hidden'>
+                                                    <div className='truncate'>ĐIỆN THOẠI VSMART ACTIVE 3 6GB/64GB - HÀNG CHÍNH HÃNG</div>
+                                                </div>
+                                                <div className='ml-2 flex-shrink-0'>
+                                                    <span className='text-orange'>đ468.000</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }>
+                            <div>
+                                <Link to='/' className="relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="h-8 w-8"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+                                </Link>
                             </div>
-                        }
-                    >
-                        <div>
-                            <Link to='/' className="relative">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="h-8 w-8"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
-                            </Link>
-                        </div>
-                    </Popover>
+                        </Popover>
+                    </div>
                 </div>
             </div>
         </div >
