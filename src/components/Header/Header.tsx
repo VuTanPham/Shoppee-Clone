@@ -1,7 +1,25 @@
 import { Link } from "react-router-dom";
 import Popover from "../Popover";
+import path from "src/constants/path";
+import { useContext } from "react";
+import { AppContext } from "src/contexts/app.context";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "src/apis/auth.api";
 
 export default function Header() {
+    const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
+
+    const logoutMutation = useMutation({
+        mutationFn: logout,
+        onSuccess: () => {
+            setIsAuthenticated(false)
+            setProfile(null)
+        }
+    })
+
+    const handleLogout = () => {
+        logoutMutation.mutate();
+    }
     return (
         <div className="bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white">
             <div className="container">
@@ -47,7 +65,7 @@ export default function Header() {
                                 <div className="flex flex-col py-2 px-3">
                                     <Link to='/profile' className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</Link>
                                     <Link to='/' className="py-2 px-3 hover:text-orange">Đơn mua</Link>
-                                    <Link to='/' className="py-2 px-3 hover:text-orange">Đăng xuất</Link>
+                                    <button className="py-2 px-3 hover:text-orange" onClick={handleLogout}>Đăng xuất</button>
                                 </div>
                             </div>
                         }>
@@ -61,15 +79,15 @@ export default function Header() {
                         <div>BuiQuocDat</div>
                     </Popover>
                     <div className="flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6">
-                        <Link to='/' className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
+                        <Link to={path.register} className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
                             Đăng Ký
                         </Link>
                         <div className="h-4 border-r-[1px] border-r-white/40"></div>
-                        <Link to='/' className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
+                        <Link to={path.login} className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
                             Đăng Nhập
                         </Link>
                     </div>
-                </div>
+                </div> 
                 <div className=" grid grid-cols-12 items-end gap-4">
                     <div className="max-w-7xl mx-auto pb-4 flex col-span-2">
                         <Link to='/'>

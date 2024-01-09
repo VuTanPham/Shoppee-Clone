@@ -53,7 +53,7 @@ export default function Login() {
         <div className="grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10">
           <div className="lg:col-span-2 lg:col-start-4">
             <form className="p-10 rounded bg-white shadow-sm" onSubmit={onSubmit}>
-              <div className="text-2xl">Register</div>
+              <div className="text-2xl">Login</div>
               <div className="relative mt-8"></div>
               <Input
                 type="email"
@@ -73,7 +73,7 @@ export default function Login() {
                 autoComplete='on'
               />
               <div className="mt-3">
-                <button className="w-full rounded-sm bg-red-500 uppercase text-white mt-2 px-3 py-3">Register</button>
+                <button className="w-full rounded-sm bg-red-500 uppercase text-white mt-2 px-3 py-3">Login</button>
               </div>
               <div className="flex items-center justify-center mt-8">
                 <span className="text-black-400">Don't have an account?</span>
