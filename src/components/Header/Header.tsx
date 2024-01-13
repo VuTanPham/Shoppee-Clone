@@ -59,35 +59,39 @@ export default function Header() {
                             <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
                         </svg>
                     </Popover>
-                    <Popover className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
-                        renderPopover={
-                            <div className="bg-white relative shadow-md rounded-sm border border-gray-200">
-                                <div className="flex flex-col py-2 px-3">
-                                    <Link to='/profile' className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</Link>
-                                    <Link to='/' className="py-2 px-3 hover:text-orange">Đơn mua</Link>
-                                    <button className="py-2 px-3 hover:text-orange" onClick={handleLogout}>Đăng xuất</button>
+                    {isAuthenticated && (
+                        <Popover className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+                            renderPopover={
+                                <div className="bg-white relative shadow-md rounded-sm border border-gray-200">
+                                    <div className="flex flex-col py-2 px-3">
+                                        <Link to={path.profile} className="py-2 px-3 hover:text-orange">Tài khoản Của tôi</Link>
+                                        <Link to='/' className="py-2 px-3 hover:text-orange">Đơn mua</Link>
+                                        <button className="py-2 px-3 hover:text-orange" onClick={handleLogout}>Đăng xuất</button>
+                                    </div>
                                 </div>
+                            }>
+                            <div className='w-6 h-6 mr-2 flex-shrink-0'>
+                                <img
+                                    src='https://api-ecom.duthanhduoc.com/images/de4e05e4-622e-4990-8b56-808e54d01723.png'
+                                    alt='avatar'
+                                    className='h-full w-full rounded-full object-cover'
+                                />
                             </div>
-                        }>
-                        <div className='w-6 h-6 mr-2 flex-shrink-0'>
-                            <img
-                                src='https://api-ecom.duthanhduoc.com/images/de4e05e4-622e-4990-8b56-808e54d01723.png'
-                                alt='avatar'
-                                className='h-full w-full rounded-full object-cover'
-                            />
+                            <div>{profile?.email}</div>
+                        </Popover>
+                    )}
+                    {!isAuthenticated && (
+                        <div className="flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6">
+                            <Link to={path.register} className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
+                                Đăng Ký
+                            </Link>
+                            <div className="h-4 border-r-[1px] border-r-white/40"></div>
+                            <Link to={path.login} className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
+                                Đăng Nhập
+                            </Link>
                         </div>
-                        <div>BuiQuocDat</div>
-                    </Popover>
-                    <div className="flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6">
-                        <Link to={path.register} className="text-whitelo text-xs  max-w-screen-xl pr-2 hover:text-whiteli">
-                            Đăng Ký
-                        </Link>
-                        <div className="h-4 border-r-[1px] border-r-white/40"></div>
-                        <Link to={path.login} className="text-whitelo text-xs max-w-screen-xl pl-2 hover:text-whiteli">
-                            Đăng Nhập
-                        </Link>
-                    </div>
-                </div> 
+                    )}
+                </div>
                 <div className=" grid grid-cols-12 items-end gap-4">
                     <div className="max-w-7xl mx-auto pb-4 flex col-span-2">
                         <Link to='/'>

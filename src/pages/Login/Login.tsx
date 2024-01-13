@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form'
 import Input from "src/components/Input/Input";
 import { Schema, schema } from "src/utils/rules";
@@ -7,15 +7,18 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "src/apis/auth.api";
 import { isAxiosUnprocessableEntity } from "src/utils/utils";
 import { ResponseApi } from "src/types/utils.type";
+import { useContext } from "react";
+import { AppContext } from "src/contexts/app.context";
 
 type FormData = Omit<Schema, 'confirm_password'>
 const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
-    getValues,
     setError,
     formState: { errors }
   } = useForm<FormData>({
@@ -29,6 +32,7 @@ export default function Login() {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
+        setIsAuthenticated(true), setProfile(data.data.data.user), navigate('/')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
