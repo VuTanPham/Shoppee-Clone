@@ -4,10 +4,10 @@ import { schema, Schema } from "src/utils/rules";
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from "@tanstack/react-query";
-import { registerAccount } from "src/apis/auth.api";
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntity } from "src/utils/utils";
 import { ResponseApi } from "src/types/utils.type";
+import authApi from "src/apis/auth.api";
 
 
 type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
@@ -16,7 +16,6 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    getValues,
     setError,
     formState: { errors }
   } = useForm<FormData>({
@@ -24,7 +23,7 @@ export default function Register() {
   })
 
   const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
 
   // const rules = getRules(getValues)
@@ -33,6 +32,7 @@ export default function Register() {
     const body = omit(data, '[confirm_password]')
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
+        setIsAuthenticated(true), setProfile(data.data.data.user), navigate('/')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntity<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {

@@ -4,11 +4,11 @@ import Input from "src/components/Input/Input";
 import { Schema, schema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "src/apis/auth.api";
 import { isAxiosUnprocessableEntity } from "src/utils/utils";
 import { ResponseApi } from "src/types/utils.type";
 import { useContext } from "react";
 import { AppContext } from "src/contexts/app.context";
+import authApi from "src/apis/auth.api";
 
 type FormData = Omit<Schema, 'confirm_password'>
 const loginSchema = schema.pick(['email', 'password'])
@@ -26,7 +26,7 @@ export default function Login() {
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.login(body)
   })
 
   const onSubmit = handleSubmit((data) => {
