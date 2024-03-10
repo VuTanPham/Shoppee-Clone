@@ -3,15 +3,15 @@ import Footer from 'src/components/Footer'
 import Header from 'src/components/Header'
 
 interface Props {
-    children?: React.ReactNode
+  children?: React.ReactNode
 }
 
 export default function ProductListLayout({ children }: Props) {
-    return (
-        <div>
-            <Header />
-            {children}
-            <Footer />
-        </div>
-    )
+  return (
+    <div>
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  )
 }
